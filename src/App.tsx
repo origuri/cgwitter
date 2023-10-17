@@ -6,6 +6,8 @@ import Login from "./routes/login";
 import CreateAccount from "./routes/create-account";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import { useEffect, useState } from "react";
+import LoadingScreen from "./components/loading-screen";
 
 const router = createBrowserRouter([
   {
@@ -29,10 +31,12 @@ const router = createBrowserRouter([
   { path: "/create-account", element: <CreateAccount /> },
 ]);
 
-const GlobalStyles = createGlobalStyle`${reset};
+// ${reset}브라우저의 기본 css를 리셋하겠다
+const GlobalStyles = createGlobalStyle`${reset} 
 // 모든 box 사이즈를 border box로 해라 
 *{
   box-sizing: border-box;
+ 
 }
 body{
   background-color: black;
@@ -42,10 +46,22 @@ body{
 `;
 
 function App() {
+  // firebase가 로그인 인증완료 전까지 로딩을 보여주기 위한 state
+  const [isLoading, setIsLoading] = useState(true);
+  // 비동기함수를 사용할 것이기 때문에 async와 await를 사용
+  const init = async () => {
+    // 로그인이 완료되면 false로 바꿈
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <>
       <GlobalStyles />
-      <RouterProvider router={router} />
+      {/* 로딩 안되면 로딩화면 되면 라우터 보여줌 */}
+      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
     </>
   );
 }
