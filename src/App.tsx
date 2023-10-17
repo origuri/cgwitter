@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     // outlet이 중복된 url을 처리해줌.
     // 여기에 /user라고 되어있으면 /user가 자동으로 중첩되고 /user/profile이 됨.
     // 주소에 따라 layout과 home, profile이 같이 나옴.
-    path: "/",
+    path: "/a",
     element: <Layout />, // 이 안에 outlet이 있음.
     children: [
       {
